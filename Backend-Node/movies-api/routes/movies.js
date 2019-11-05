@@ -1,6 +1,5 @@
 const express = require('express')
 const MoviesService = require('../services/movies')
-// const { moviesMock } = require('../utils/mocks/movies')
 
 function moviesApi(app){
     const router = express.Router();
