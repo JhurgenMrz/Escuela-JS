@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "dev": "set NODE_ENV=development && set DEBUG=app:* && nodemon index",
-    "start": "set NODE_ENV=production && node index"
+    "start": "set NODE_ENV=production && node index",
+    "test": "node ./node_modules/mocha/bin/mocha --exit"
   },
   "keywords": [],
   "author": "",
@@ -29,7 +30,7 @@
     "nodemon": "^1.19.4",
     "prettier": "^1.18.2",
     "proxyquire": "^2.1.3",
-    "simon": "^0.2.3",
+    "sinon": "^7.5.0",
     "supertest": "^4.0.2"
   },
   "husky": {
