@@ -21,7 +21,7 @@ class MongoLib {
                     if (err) {
                         reject(err)
                     }
-                    console.log('Connected succesfully to mongo');
+                    console.log('Connected succesfully to mongo'); //eslint-disable-line
                     resolve(this.client.db(this.dbName))
                 })
             })
@@ -32,7 +32,7 @@ class MongoLib {
 
     getAll(collection, query) {
         return this.connect().then(db => {
-            return db.collection(collection).find(query).toArray();
+            return db.collection(collection).find(query).toArray()
         })
     }
 

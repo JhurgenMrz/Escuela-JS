@@ -1,15 +1,35 @@
 const express = require('express');
 const app = express();
+const morgan = require('morgan')
+const cors = require('cors')
 
 const { config } = require('./config/index');
 const moviesApi = require('./routes/movies.js')
 
+const {
+    wrapError,
+    logErrors,
+    errorHandler
+    
+} = require('./utils/middleware/errorHandlers')
+
+const notFoundHandler = require('./utils/middleware/notFoundHandler')
+
 //Midleware
 app.use(express.json())
+app.use(cors())
+app.use(morgan(':method :url :status :res[content-length] - :response-time ms'))
 
 
 moviesApi(app)
+// Catch 404
+app.use(notFoundHandler)
+
+//Error middleware
+app.use(logErrors)
+app.use(wrapError)
+app.use(errorHandler)
 
 app.listen(config.port, function(){
-    console.log(`Listening http://localhost:${config.port}`);
+    console.log(`Listening http://localhost:${config.port}`); //eslint-disable-line
 })
