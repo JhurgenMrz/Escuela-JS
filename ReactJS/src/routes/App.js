@@ -1,7 +1,7 @@
 import React from 'react'
 import { BrowserRouter,Switch, Route } from 'react-router-dom'
 import {Layout} from '../components/Layout'
-import {Home} from '../containers/Home'
+import Home from '../containers/Home'
 import {Login} from '../containers/Login'
 import {Register} from '../containers/Register'
 import {NotFound} from '../containers/NotFound'
