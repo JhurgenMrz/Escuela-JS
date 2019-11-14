@@ -2,6 +2,7 @@ import React, {useState} from 'react'
 import {connect} from 'react-redux'
 import {loginRequest} from '../actions'
 import {Link} from 'react-router-dom'
+import Header from '../components/Header'
 import '../assets/styles/components/Login.scss'
 import googleIcon from '../assets/static/google-icon.png'
 import twitterIcon from '../assets/static/twitter-icon.png'
@@ -28,6 +29,8 @@ const Login = props => {
     }
 
     return (
+        <>
+        <Header isLogin/>
         <section className="login">
             <section className="login__container">
                 <h2>Inicia sesión</h2>
@@ -60,14 +63,14 @@ const Login = props => {
                 <div><img src={twitterIcon} /> Inicia sesión con Twitter</div>
                 </section>
                 <p className="login__container--register">
-                    No tienes ninguna cuenta 
+                    No tienes ninguna cuenta {' '}
                         <Link to="/register">
                             Regístrate
                         </Link>
                 </p>
             </section>
         </section>
-    
+        </>
     )
 }
 
