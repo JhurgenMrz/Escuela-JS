@@ -4,7 +4,7 @@ import '../assets/styles/App.scss'
 import { Search} from '../components/Search'
 import {Categories} from '../components/Categories'
 import {Carousel} from '../components/Carousel'
-import {CarouselItem} from '../components/CarouselItem'
+import CarouselItem from '../components/CarouselItem'
 
 
 const Home =({mylist, trends, originals})=>{
@@ -16,8 +16,12 @@ const Home =({mylist, trends, originals})=>{
             <Categories title="Mi Lista">
             <Carousel>
                 {
-                    initialState.mylist.map(item=> (
-                        <CarouselItem key={item.id} {...item} />
+                    mylist.map(item=> (
+                        <CarouselItem 
+                            key={item.id} 
+                            {...item}  
+                            isList
+                        />
                     ))
                 }
             </Carousel>
@@ -27,7 +31,11 @@ const Home =({mylist, trends, originals})=>{
             <Carousel>
                 {
                     trends.map(item=> (
-                        <CarouselItem key={item.id} {...item} />
+                        <CarouselItem 
+                            key={item.id} 
+                            {...item} 
+                            isList={false}
+                        />
                     ))
                 }
             </Carousel>
@@ -36,7 +44,11 @@ const Home =({mylist, trends, originals})=>{
             <Carousel>
                 {   
                     originals.map(item=> (
-                        <CarouselItem key={item.id} {...item} />
+                        <CarouselItem 
+                            key={item.id} 
+                            {...item} 
+                            isList={false}
+                        />
                     ))
                 }
             </Carousel>
