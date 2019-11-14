@@ -10,13 +10,12 @@ import {Footer} from '../components/Footer'
 
 const API = 'http://localhost:3000/initialState'
 
-const Home =()=>{
+export const Home =()=>{
 
     const initialState = useInitialState(API)
 
     
-    return <div>
-        <Header/>
+    return <>
         <Search/>
         {
             initialState.mylist.length > 0 && (
@@ -48,10 +47,6 @@ const Home =()=>{
                 }
             </Carousel>
         </Categories>
-        <Footer/>
 
-    </div>
+    </>
 }
-
-
-export default Home;
