@@ -6,7 +6,9 @@
   "scripts": {
     "dev": "set NODE_ENV=development && set DEBUG=app:* && nodemon index",
     "start": "set NODE_ENV=production && node index",
-    "test": "node ./node_modules/mocha/bin/mocha --exit"
+    "test": "node ./node_modules/mocha/bin/mocha --exit",
+    "cover": "nyc npm run test",
+    "report": "nyc report --reporter=html && start coverage/index.html"
   },
   "keywords": [],
   "author": "",
@@ -14,10 +16,12 @@
   "dependencies": {
     "@hapi/boom": "^8.0.1",
     "@hapi/joi": "^16.1.7",
+    "D": "^1.0.0",
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
-    "mongodb": "^3.3.3"
+    "mongodb": "^3.3.3",
+    "nyc": "^14.1.1"
   },
   "devDependencies": {
     "eslint": "^6.6.0",
@@ -42,6 +46,15 @@
     "*.js": [
       "eslint --fix",
       "git add"
+    ]
+  },
+  "nyc":{
+    "all":true,
+    "include": [
+      "routes",
+      "services",
+      "lib",
+      "utils"
     ]
   }
 }
