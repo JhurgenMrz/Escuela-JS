@@ -9,7 +9,8 @@ import {CarouselItem} from '../components/CarouselItem'
 import {Footer} from '../components/Footer'
 
 const API = 'http://localhost:3000/initialState'
-export const App =()=>{
+
+const Home =()=>{
 
     const initialState = useInitialState(API)
 
@@ -51,3 +52,6 @@ export const App =()=>{
 
     </div>
 }
+
+
+export default Home;
