@@ -6,7 +6,8 @@
   "scripts": {
     "build": "webpack --mode production",
     "start": "webpack-dev-server --open --mode development",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start:dev": "nodemon src/server/index.js --exact babel-node"
   },
   "keywords": [],
   "author": "",
@@ -15,15 +16,12 @@
     "@babel/register": "^7.7.0",
     "babel-eslint": "^10.0.3",
     "classnames": "^2.2.6",
-    "dotenv": "^8.2.0",
     "eslint": "^6.6.0",
     "eslint-config-airbnb": "^18.0.1",
     "eslint-plugin-import": "^2.18.2",
     "eslint-plugin-jsx-a11y": "^6.2.3",
     "eslint-plugin-react": "^7.16.0",
-    "express": "^4.17.1",
     "md5": "^2.2.1",
-    "nodemon": "^1.19.4",
     "prop-types": "^15.7.2",
     "react": "^16.11.0",
     "react-dom": "^16.11.0",
