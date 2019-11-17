@@ -1,5 +1,5 @@
 const path = require('path');
-const HtmlWebpackPlugin = require('html-webpack-plugin')
+// const HtmlWebpackPlugin = require('html-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const autoprefixer = require('autoprefixer')
 const webpack = require('webpack')
@@ -7,9 +7,10 @@ const webpack = require('webpack')
 
 module.exports= {
     entry: './src/frontend/index.js',
+    mode: 'development',
     output: {
-        path: path.resolve(__dirname,'dist'),
-        filename: 'bundle.js',
+        path: '/',
+        filename: 'assets/app.js',
         publicPath: '/'
     },
     resolve:{
@@ -52,19 +53,28 @@ module.exports= {
                     loader: 'babel-loader'
                 }
             },
-            {
-                test: /\.html$/,
-                use:{
-                        loader:'html-loader'
-                    }
-            },
+            // {
+            //     test: /\.html$/,
+            //     use:{
+            //             loader:'html-loader'
+            //         }
+            // },
             {
                 test: /\.(s*)css$/,
                 use: [
                   { loader: MiniCssExtractPlugin.loader },
                   'css-loader',
-                  'sass-loader',
                   'postcss-loader',
+                  {
+                    loader: 'sass-loader',
+                    options: {
+                      prependData: `
+                        @import "${path.resolve(__dirname, 'src/frontend/assets/styles/Vars.scss')}";
+                        @import "${path.resolve(__dirname, 'src/frontend/assets/styles/Media.scss')}";
+                        @import "${path.resolve(__dirname, 'src/frontend/assets/styles/Base.scss')}";
+                        `
+                    },
+                  }
                 ],
             },
             {
@@ -86,12 +96,12 @@ module.exports= {
     },
     plugins: [
         new webpack.HotModuleReplacementPlugin(),
-        new HtmlWebpackPlugin({
-            template: './public/index.html',
-            filename: './index.html'
-        }),
+        // new HtmlWebpackPlugin({
+        //     template: './public/index.html',
+        //     filename: './index.html'
+        // }),
         new MiniCssExtractPlugin({
-            filename: 'assets/[name].css',
+            filename: 'assets/app.css',
           }),
         new webpack.LoaderOptionsPlugin({
             options: {
