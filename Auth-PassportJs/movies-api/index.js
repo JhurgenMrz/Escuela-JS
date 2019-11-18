@@ -6,7 +6,7 @@ const cors = require('cors')
 const { config } = require('./config/index');
 const moviesApi = require('./routes/movies.js')
 const userMoviesApi = require('./routes/userMovies')
-
+const authApi = require('./routes/auth')
 
 const {
     wrapError,
@@ -23,6 +23,7 @@ app.use(cors())
 app.use(morgan(':method :url :status :res[content-length] - :response-time ms'))
 
 //routes
+authApi(app)
 moviesApi(app)
 userMoviesApi(app)
 

@@ -1,15 +1,15 @@
 const express = require('express');
-const UserMovieService = require('../../../Backend-Node/movies-api/services/userMovies');
-const validationHandler = require('../../../Backend-Node/movies-api/utils/middleware/validationHandler');
+const UserMovieService = require('../services/userMovies');
+const validationHandler = require('../utils/middleware/validationHandler');
 
-const { movieIdScheam } = require('../../../Backend-Node/movies-api/utils/schemas/movies');
+const { movieIdScheam } = require('../utils/schemas/movies');
 const { userIdSchema } = require('../utils/schemas/users');
 const { createUserMovieSchema } = require('../utils/schemas/userMovies');
 
 function userMoviesApi(app) {
     const router = express.Router();
 
-    app.user('/api/user-movies', router);
+    app.use('/api/user-movies', router);
 
     const userMoviesService = new UserMovieService();
 

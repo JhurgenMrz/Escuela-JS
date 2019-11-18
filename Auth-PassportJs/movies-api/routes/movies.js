@@ -29,7 +29,7 @@ function moviesApi(app){
             next(err)
         }
     })
-    router.get('/:movieId', validationHandler(movieIdSchema, 'params', 'movieId'), async function(req,res,next){
+    router.get('/:movieId', validationHandler({ modieId: movieIdSchema}, 'params'), async function(req,res,next){
         cacheResponse(res, SIXTY_MINUTES_IN_SECONDS)
         const {movieId} = req.params
  
@@ -58,7 +58,7 @@ function moviesApi(app){
             next(err)
         }
     })
-    router.put('/:movieId', validationHandler(movieIdSchema, 'params','movieId'), validationHandler(updateMovieSchema), async function(req,res,next){
+    router.put('/:movieId', validationHandler({ modieId: movieIdSchema}, 'params'), validationHandler(updateMovieSchema), async function(req,res,next){
         const {movieId} = req.params
         const {body: movie} = req
         try{
@@ -72,7 +72,7 @@ function moviesApi(app){
             next(err)
         }
     })
-    router.delete('/:movieId', validationHandler(movieIdSchema, 'params', 'movieId'),  async function(req,res,next){
+    router.delete('/:movieId', validationHandler({ movieId: movieIdSchema}, 'params'),  async function(req,res,next){
         const {movieId} = req.params
 
         try{
