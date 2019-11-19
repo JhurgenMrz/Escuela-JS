@@ -2,9 +2,10 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { createStore, compose } from 'redux';
-import { createBrowserHistory } from 'history'
+import { createBrowserHistory } from 'history';
 import { Router } from 'react-router';
 import reducer from './reducers';
+import initialState from './initialState';
 
 import App from './routes/App';
 
