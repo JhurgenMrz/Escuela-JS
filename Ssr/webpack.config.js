@@ -53,12 +53,6 @@ module.exports= {
                     loader: 'babel-loader'
                 }
             },
-            // {
-            //     test: /\.html$/,
-            //     use:{
-            //             loader:'html-loader'
-            //         }
-            // },
             {
                 test: /\.(s*)css$/,
                 use: [
@@ -69,9 +63,9 @@ module.exports= {
                     loader: 'sass-loader',
                     options: {
                       prependData: `
-                        @import "${path.resolve(__dirname, 'src/frontend/assets/styles/Vars.scss')}";
-                        @import "${path.resolve(__dirname, 'src/frontend/assets/styles/Media.scss')}";
-                        @import "${path.resolve(__dirname, 'src/frontend/assets/styles/Base.scss')}";
+                        @import "./src/frontend/assets/styles/Vars.scss";
+                        @import "./src/frontend/assets/styles/Media.scss";
+                        @import "./src/frontend/assets/styles/Base.scss";
                         `
                     },
                   }
