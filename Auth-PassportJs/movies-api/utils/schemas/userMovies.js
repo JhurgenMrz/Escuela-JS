@@ -1,6 +1,6 @@
 const joi = require('@hapi/joi');
 
-const { movieIdSchema } = require('../../../../Backend-Node/movies-api/utils/schemas/movies')
+const { movieIdSchema } = require('./movies')
 const { userIdSchema } = require('./users')
 const userMovieIdSchema = joi.string().regex(/^[0-9a-fA-F]{24}$/);
 

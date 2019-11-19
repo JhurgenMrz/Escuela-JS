@@ -11,7 +11,7 @@ const movieSourceSchema = joi.string().uri()
 const movieTagSchema = joi.array().items(joi.string().max(50))
 
 
-const createMovieSchema = joi.object({
+const createMovieSchema = {
     title: movieTitleSchema.required(),
     year: movieYearSchema.required(),
     cover: movieCoverSchema.required(),
@@ -20,9 +20,9 @@ const createMovieSchema = joi.object({
     contentRating: movieContentRatingSchema.required(),
     source: movieSourceSchema.required(),
     tag: movieTagSchema
-});
+};
 
-const updateMovieSchema = joi.object({
+const updateMovieSchema = {
     title: movieTitleSchema,
     year: movieYearSchema,
     cover: movieCoverSchema,
@@ -31,7 +31,7 @@ const updateMovieSchema = joi.object({
     contentRating: movieContentRatingSchema,
     source: movieSourceSchema,
     tag: movieTagSchema
-});
+};
 
 module.exports = {
     movieIdSchema,

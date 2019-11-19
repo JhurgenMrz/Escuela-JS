@@ -19,7 +19,7 @@ function authApi(app){
     const userService = new UserService()
 
     router.post('/sign-in', async function(req, res, next){
-        const { apiKeyToken} = req. body;
+        const { apiKeyToken } = req. body;
 
         if(!apiKeyToken){
             next(boom.unauthorized('apiKeyToken is required'));
@@ -35,9 +35,9 @@ function authApi(app){
                     if(error){
                         next(error)
                     }
-                    const apiKey = await apiKeysService.getApiKey({token: apiKeyToken})
+                    const apiKey = await apiKeysService.getApiKey({ token: apiKeyToken})
                 
-                    if(apiKey){
+                    if(!apiKey){
                         next(boom.unauthorized())
                     }
 
