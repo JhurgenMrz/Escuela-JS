@@ -3,6 +3,7 @@ import path from 'path';
 import dotenv from 'dotenv'
 import webpack from 'webpack'
 import main from './routes/main'
+import helmet from 'helmet'
 
 dotenv.config();
 
@@ -10,6 +11,7 @@ const ENV = process.env.NODE_ENV;
 const PORT = process.env.PORT || 3000;
 
 const app = express();
+app.use(express.static(`${__dirname}/public`))
 
 if(ENV === 'development'){
     console.log('Loading dev config');
@@ -30,6 +32,10 @@ if(ENV === 'development'){
 
     app.use(webpackDevMiddleware(compiler, serverConfig));
     app.use(webpackHotMiddleware(compiler))
+} else{
+    app.use(helmet());
+    app.use(helmet.permittedCrossDomainPolicies());
+    app.disable('x-powered-by');
 }
 
 
