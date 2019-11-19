@@ -2,6 +2,7 @@ import express from 'express';
 import path from 'path';
 import dotenv from 'dotenv'
 import webpack from 'webpack'
+import main from './routes/main'
 
 dotenv.config();
 
@@ -32,26 +33,7 @@ if(ENV === 'development'){
 }
 
 
-app.get('*',(req,res)=>{
-    console.log(path.resolve(__dirname, 'src/frontend/assets/styles/Base.scss'));
-    res.send(`
-        <!DOCTYPE html>
-        <html lang="en">
-        <head>
-            <meta charset="UTF-8">
-            <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <meta http-equiv="X-UA-Compatible" content="ie=edge">
-            <title>ReactApp</title>
-            <link rel="stylesheet" href="assets/app.css" type="text/css" >
-        </head>
-        <body>
-            <div id="app"></div>
-            <script src="assets/app.js" type="text/javascript"></script>
-            <script src="assets/vendor.js" type="text/javascript"></script>
-        </body>
-        </html>
-    `)
-})
+app.get('*', main)
 
 app.listen(PORT, (err)=>{
     if(err){
