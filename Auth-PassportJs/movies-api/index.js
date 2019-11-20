@@ -1,7 +1,8 @@
 const express = require('express');
-const app = express();
+const helmet = require('helmet');
 const morgan = require('morgan')
 const cors = require('cors')
+const app = express();
 
 const { config } = require('./config/index');
 const moviesApi = require('./routes/movies.js')
@@ -19,6 +20,7 @@ const notFoundHandler = require('./utils/middleware/notFoundHandler')
 
 //Midleware
 app.use(express.json())
+app.use(helmet())
 app.use(cors())
 app.use(morgan(':method :url :status :res[content-length] - :response-time ms'))
 

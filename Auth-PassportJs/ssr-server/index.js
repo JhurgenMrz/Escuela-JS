@@ -1,4 +1,5 @@
 const express = require("express");
+const helmet = require('helmet')
 const passport = require('passport');
 const boom = require('@hapi/boom');
 const cookieParser = require('cookie-parser');
@@ -12,6 +13,7 @@ const app = express();
 
 // body parser
 app.use(express.json());
+app.use(helmet())
 app.use(cookieParser());
 app.use(session({ secret: config.sessionSecret}));
 app.use(passport.initialize());
