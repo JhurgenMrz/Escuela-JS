@@ -10,24 +10,27 @@ passport.use(
         clientID: config.googleClientId,
         clientSecret: config.googleClientSecret,
         callbackURL: "/auth/google/callback"
-    }),
+    },
     async function (accessToken, refreshToken, {_json: profile}, cb){
-        const { data, status } = await axios({
-            url: `${config.apiUrl}/api/auth/sign-provider`,
-            method: 'post',
-            data: {
-                name: profile.name,
-                emial: profile.email,
-                password: profile.sub,
-                apiKeyToken: config.apiKeyToken
+        try {
+            const { data, status } = await axios({
+                url: `${config.apiUrl}/api/auth/sign-provider`,
+                method: 'post',
+                data: {
+                    name: profile.name,
+                    emial: profile.email,
+                    password: profile.sub,
+                    apiKeyToken: config.apiKeyToken
+                }
+            })
+
+            if(!data || status !== 200){
+                return cb(boom.unauthorized(), false)
             }
-        })
-
-        if(!data || status !== 200){
-            return cb(boom.unauthorized(), false)
+                
+            return cb(null, data)
+        } catch (error) {
+            cb(error)
         }
-            
-        return cb(null, data)
-
-    }
+    })
 )
