@@ -15,7 +15,7 @@ passport.use(
                     username: email
                 },
                 data: {
-                    apiKeyToken: config.apiKeyToken
+                    apiKeyToken: '1f99f4ebbb22bb77eeb46a3112042636239cd50f78585f029f826646244f2088'
                 }
             })
 

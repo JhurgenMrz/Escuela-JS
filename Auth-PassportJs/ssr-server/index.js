@@ -15,6 +15,11 @@ app.use(cookieParser());
 // Basic Strategy
 require('./utils/auth/strategies/basic');
 
+//OAuth Strategy 
+require('./utils/auth/strategies/oauth');
+
+
+
 app.post("/auth/sign-in", async function(req, res, next) {
   passport.authenticate("basic", function(error, data){
     try{
@@ -63,12 +68,75 @@ app.get("/movies", async function(req, res, next) {
 });
 
 app.post("/user-movies", async function(req, res, next) {
+  try {
+    const { body: userMovie } = req; 
+    const { token } = req.cookies; 
 
+    console.log(userMovie, token);
+    const { data, status } = await axios({
+      url: `${config.apiUrl}/api/user-movies`,
+      header: { Authorization: `Bearer ${token}` },
+      method: "post",
+      data: userMovie
+    })
+
+    console.log(data,status);
+
+    if(status !== 201){
+      return next(boom.badImplementation())
+    }
+
+    res.status(201).json(data)
+
+  } catch (error) {
+    next(error)
+  }
 });
 
 app.delete("/user-movies/:userMovieId", async function(req, res, next) {
+  try {
+    const { userMovieId } = req.params; 
+    const { token } = req.cookies; 
 
+    const { data, status } = await axios({
+      url: `${config.apiUrl}/api/user-movies/${userMovieId}`,
+      header: { Authorization: `Bearer ${token}` },
+      method: 'delete',
+    });
+
+    if(status !== 202){
+      return next(boom.badImplementation())
+    }
+
+    res.status(202).json(data)
+
+  } catch (error) {
+    next(error)
+  }
 });
+
+app.get("/auth/google-oauth", passport.authenticate("google-oauth", {
+  scope: ['email', 'profile','openid']
+}))
+
+app.get("/auth/google-oauth/callback", passport.authenticate("google-oauth", { session: false }),
+  function(req, res, next){
+    if(!req.user){
+      next(boom.unauthorized())
+    }
+
+    const {token, ...user} = req.user
+
+    res.cookie("token", token, {
+      httpOnly: !config.dev,
+      secure: !config.dev
+    } )
+
+    res.status(200).json(user);
+  })
+
+
+
 
 app.listen(config.port, function() {
   console.log(`Listening http://localhost:${config.port}`);

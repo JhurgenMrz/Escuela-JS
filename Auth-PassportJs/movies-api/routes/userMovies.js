@@ -42,7 +42,7 @@ function userMoviesApi(app) {
     validationHandler(createUserMovieSchema),
     async function(req, res, next) {
       const { body: userMovie } = req;
-
+      console.log(userMovie);
       try {
         const createdUserMovieId = await userMoviesService.createUserMovie({
           userMovie
