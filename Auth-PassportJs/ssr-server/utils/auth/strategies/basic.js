@@ -5,7 +5,7 @@ const axios = require('axios');
 const { config } = require('../../../config');
 
 passport.use(
-    new BasicStrategy(async function(email, password, cb){
+    new BasicStrategy(async function (email, password, cb) {
         try {
             const { data, status } = await axios({
                 url: `${config.apiUrl}/api/auth/sign-in`,
@@ -15,11 +15,11 @@ passport.use(
                     username: email
                 },
                 data: {
-                    apiKeyToken: '1f99f4ebbb22bb77eeb46a3112042636239cd50f78585f029f826646244f2088'
+                    apiKeyToken: config.apiKeyToken
                 }
             })
 
-            if(!data || status !== 200){
+            if (!data || status !== 200) {
                 return cb(boom.unauthorized(), false);
             }
 

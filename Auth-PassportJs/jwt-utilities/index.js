@@ -7,7 +7,7 @@ if( !option || !secret || !nameOrToken){
 }
 
 function signToken(payload, secret){
-    return jwt.sign(payload, secret)
+    return jwt.sign(payload, secret, { expiresIn: '1m' })
 }
 
 function verityToken(token,secret){

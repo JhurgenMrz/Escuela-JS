@@ -15,7 +15,7 @@ const app = express();
 app.use(express.json());
 app.use(helmet())
 app.use(cookieParser());
-app.use(session({ secret: config.sessionSecret}));
+app.use(session({ secret: config.sessionSecret }));
 app.use(passport.initialize());
 app.use(passport.session());
 
@@ -36,18 +36,18 @@ require('./utils/auth/strategies/facebook')
 
 
 
-app.post("/auth/sign-in", async function(req, res, next) {
-  passport.authenticate("basic", function(error, data){
-    try{
-      if (error || !data){
+app.post("/auth/sign-in", async function (req, res, next) {
+  passport.authenticate("basic", function (error, data) {
+    try {
+      if (error || !data) {
         next(boom.unauthorized())
       }
 
-      req.login(data, { session: false }, async function(error){
-        if(error){
+      req.login(data, { session: false }, async function (error) {
+        if (error) {
           next(error)
         }
-        const {token, ...user } = data
+        const { token, ...user } = data
         res.cookie("token", token, {
           httpOnly: !config.dev,
           secure: !config.dev
@@ -56,13 +56,13 @@ app.post("/auth/sign-in", async function(req, res, next) {
         res.status(200).json(user)
       })
 
-    } catch(error){
+    } catch (error) {
       next(error)
     }
   })(req, res, next)
 });
 
-app.post("/auth/sign-up", async function(req, res, next) {
+app.post("/auth/sign-up", async function (req, res, next) {
   const { body: user } = req;
 
   try {
@@ -74,19 +74,19 @@ app.post("/auth/sign-up", async function(req, res, next) {
 
     res.status(201).json({ message: 'user created' })
   } catch (error) {
-      next(error)
+    next(error)
   }
 
 });
 
-app.get("/movies", async function(req, res, next) {
+app.get("/movies", async function (req, res, next) {
 
 });
 
-app.post("/user-movies", async function(req, res, next) {
+app.post("/user-movies", async function (req, res, next) {
   try {
-    const { body: userMovie } = req; 
-    const { token } = req.cookies; 
+    const { body: userMovie } = req;
+    const { token } = req.cookies;
 
     console.log(userMovie, token);
     const { data, status } = await axios({
@@ -96,9 +96,9 @@ app.post("/user-movies", async function(req, res, next) {
       data: userMovie
     })
 
-    console.log(data,status);
+    console.log(data, status);
 
-    if(status !== 201){
+    if (status !== 201) {
       return next(boom.badImplementation())
     }
 
@@ -109,10 +109,10 @@ app.post("/user-movies", async function(req, res, next) {
   }
 });
 
-app.delete("/user-movies/:userMovieId", async function(req, res, next) {
+app.delete("/user-movies/:userMovieId", async function (req, res, next) {
   try {
-    const { userMovieId } = req.params; 
-    const { token } = req.cookies; 
+    const { userMovieId } = req.params;
+    const { token } = req.cookies;
 
     const { data, status } = await axios({
       url: `${config.apiUrl}/api/user-movies/${userMovieId}`,
@@ -120,7 +120,7 @@ app.delete("/user-movies/:userMovieId", async function(req, res, next) {
       method: 'delete',
     });
 
-    if(status !== 202){
+    if (status !== 202) {
       return next(boom.badImplementation())
     }
 
@@ -132,93 +132,93 @@ app.delete("/user-movies/:userMovieId", async function(req, res, next) {
 });
 
 app.get("/auth/google-oauth", passport.authenticate("google-oauth", {
-  scope: ['email', 'profile','openid']
+  scope: ['email', 'profile', 'openid']
 }))
 
 app.get("/auth/google-oauth/callback", passport.authenticate("google-oauth", { session: false }),
-  function(req, res, next){
-    if(!req.user){
+  function (req, res, next) {
+    if (!req.user) {
       next(boom.unauthorized())
     }
 
-    const {token, ...user} = req.user
+    const { token, ...user } = req.user
 
     res.cookie("token", token, {
       httpOnly: !config.dev,
       secure: !config.dev
-    } )
+    })
 
     res.status(200).json(user);
   })
 
 
-  app.get("/auth/google", 
-      passport.authenticate("google", {
-        scope: ['email','profile','openid']
-      }))
+app.get("/auth/google",
+  passport.authenticate("google", {
+    scope: ['email', 'profile', 'openid']
+  }))
 
-  app.get("/auth/google/callback", 
-    passport.authenticate(
-      "google", 
-      {session: false}), 
-    function (req, res, next){
-      if(!req.user){
-        next(boom.unauthorized())
-      }
-      const {token, ...user} = req.user;
+app.get("/auth/google/callback",
+  passport.authenticate(
+    "google",
+    { session: false }),
+  function (req, res, next) {
+    if (!req.user) {
+      next(boom.unauthorized())
+    }
+    const { token, ...user } = req.user;
 
-      res.cookie("token", token, {
-        httpOnly: !config.dev,
-        secure: !config.dev
-      })
+    res.cookie("token", token, {
+      httpOnly: !config.dev,
+      secure: !config.dev
+    })
 
-      res.status(200).json(user)
+    res.status(200).json(user)
+  })
+
+
+app.get("/auth/twitter", passport.authenticate("twitter"))
+
+app.get("/auth/twitter/callback",
+  passport.authenticate("twitter", { session: false }),
+  function (req, res, next) {
+    if (!req.user) {
+      next(boom.unauthorized())
+    }
+
+    const { token, ...user } = req.user
+
+    res.cookie("token", token, {
+      httpOnly: !config.dev,
+      secure: !config.dev,
+    })
+
+    res.status(200).json(user);
+  }
+)
+
+app.get("/auth/facebook", passport.authenticate("facebook"))
+
+app.get("/auth/facebook/callback", passport.authenticate("facebook", { session: false }),
+  function (req, res, next) {
+    if (!req.user) {
+      next(boom.unauthorized())
+    }
+    const { token, ...user } = req.user
+
+    res.cookie("token", token, {
+      httpOnly: !config.dev,
+      secure: !config.dev,
     })
 
 
-  app.get("/auth/twitter", passport.authenticate("twitter"))
+    res.status(200).json(user)
 
-  app.get("/auth/twitter/callback", 
-      passport.authenticate("twitter", { session: false}),
-      function(req, res, next){
-        if(!req.user){
-          next(boom.unauthorized())
-        }
-
-        const {token,... user} = req.user
-
-        res.cookie("token", token, {
-          httpOnly: !config.dev,
-          secure: !config.dev,
-        })
-
-        res.status(200).json(user);
-      }    
-  )
-
-  app.get("/auth/facebook", passport.authenticate("facebook"))
-
-  app.get("/auth/facebook/callback", passport.authenticate("facebook", { session: false}),
-      function(req, res, next){
-        if(!req.user){
-          next(boom.unauthorized())
-        }
-        const {token, ...user} = req.user
-
-        res.cookie("token", token, {
-          httpOnly: !config.dev,
-          secure: !config.dev,
-        })
-
-
-        res.status(200).json(user)
-
-      }
-  )
+  }
+)
 
 
 
 
-app.listen(config.port, function() {
+app.listen(config.port, function () {
   console.log(`Listening http://localhost:${config.port}`);
 });
